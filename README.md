@@ -19,3 +19,15 @@ This Python script scrapes internship listings from the [SimplifyJobs Summer 202
 1. Make sure Python 3.x is installed on your system.
 2. Install the required libraries by running:
    ```pip install requests beautifulsoup4 markdown2 openpyxl pandas```
+## Running
+```python scraper.py```
+<br />
+Initially, the script populates the spreadsheet with the current listing startig from Dec 1.<br />
+On subsequent runs, it only adds new or updated listings.
+
+## Manual Edits:
+
+Feel free to manually edit the spreadsheet. These changes won't be overwritten on script reruns.
+
+## License
+This project is released under the MIT License.
