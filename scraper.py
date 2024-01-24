@@ -6,6 +6,12 @@ import os
 import pandas as pd
 
 def reverse_rows_with_same_date(scraped_data):
+    # Check if scraped_data is empty
+    print("Scraped data:" + str(scraped_data)
+    if not scraped_data or (len(scraped_data) == 1 and not scraped_data[0]):
+        print("No new data to add.")
+        return pd.DataFrame() 
+
     # Convert the list of data rows to a DataFrame
     df = pd.DataFrame(scraped_data, columns=["Company", "Role", "Location", "Application/Link", "Date Posted"])
 
@@ -37,11 +43,21 @@ def extract_and_write_to_xlsx(xlsx_filename):
         table_rows = soup.find_all('tr')
 
         all_data = []  # List to store all rows
+        last_date = None
+        if os.path.exists(xlsx_filename):
+            workbook = load_workbook(xlsx_filename)
+            sheet = workbook.active
+            if sheet.max_row > 1:
+                last_date = sheet.cell(row=sheet.max_row, column=5).value
+                print("Last date in Excel file:" + str(last_date)
 
+        # Continue with the scraping logic
         for row in table_rows:
             table_cells = row.find_all('td')
-            if len(table_cells) > 4 and table_cells[4].get_text(strip=True) == 'Nov 30':
-                break  # Stop if 'Nov 30' is found in the 4th column
+            if len(table_cells) > 4:
+                scraped_date = table_cells[4].get_text(strip=True)
+                if scraped_date == last_date:
+                    break  # Stop if the scraped date is the same as the last date in the Excel file
             row_data = []
             for index, cell in enumerate(table_cells):
                 if index == 3:  # if this is the fourth cell (index 3)
