@@ -43,7 +43,7 @@ def extract_and_write_to_xlsx(xlsx_filename):
         table_rows = soup.find_all('tr')
 
         all_data = []  # List to store all rows
-        last_date = None
+        last_date = "Nov 30"
         if os.path.exists(xlsx_filename):
             workbook = load_workbook(xlsx_filename)
             sheet = workbook.active
